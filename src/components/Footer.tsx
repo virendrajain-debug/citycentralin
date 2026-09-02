@@ -378,7 +378,7 @@ export default function Footer() {
               margin: 0,
             }}
           >
-            Built with care in Indore, India.
+            Built with care by Varun Jain Productions.
           </p>
         </div>
       </div>
