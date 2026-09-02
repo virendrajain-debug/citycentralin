@@ -1,10 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-} from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { processSteps } from '../data/process';
@@ -96,7 +91,6 @@ function StepCard({
         flexShrink: 0,
       }}
     >
-      {/* Step number */}
       <span
         style={{
           fontSize: 'clamp(64px, 8vw, 100px)',
@@ -110,12 +104,10 @@ function StepCard({
         {stepNum}
       </span>
 
-      {/* Icon */}
       <div style={{ marginTop: '-12px' }}>
         {STEP_ICONS[iconKey]}
       </div>
 
-      {/* Title */}
       <h3
         style={{
           fontSize: 'clamp(28px, 3vw, 40px)',
@@ -129,7 +121,6 @@ function StepCard({
         {step.title}
       </h3>
 
-      {/* Description */}
       <p
         style={{
           fontSize: 'clamp(14px, 1.1vw, 17px)',
@@ -142,7 +133,6 @@ function StepCard({
         {step.description}
       </p>
 
-      {/* Accent line */}
       <motion.div
         initial={{ scaleX: 0 }}
         whileInView={{ scaleX: 1 }}
@@ -172,7 +162,6 @@ function MobileTimeline() {
         paddingLeft: '40px',
       }}
     >
-      {/* Vertical line */}
       <motion.div
         initial={{ scaleY: 0 }}
         animate={isInView ? { scaleY: 1 } : {}}
@@ -210,7 +199,6 @@ function MobileTimeline() {
               paddingLeft: '32px',
             }}
           >
-            {/* Dot on line */}
             <motion.div
               initial={{ scale: 0 }}
               whileInView={{ scale: 1 }}
@@ -232,7 +220,6 @@ function MobileTimeline() {
               }}
             />
 
-            {/* Number */}
             <span
               style={{
                 fontSize: '12px',
@@ -245,12 +232,10 @@ function MobileTimeline() {
               STEP {stepNum}
             </span>
 
-            {/* Icon */}
             <div style={{ margin: '12px 0' }}>
               {STEP_ICONS[iconKey]}
             </div>
 
-            {/* Title */}
             <h4
               style={{
                 fontSize: 'clamp(22px, 4vw, 28px)',
@@ -264,7 +249,6 @@ function MobileTimeline() {
               {step.title}
             </h4>
 
-            {/* Description */}
             <p
               style={{
                 fontSize: '14px',
@@ -286,14 +270,7 @@ function MobileTimeline() {
 function DesktopHorizontalScroll() {
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [activeStep, setActiveStep] = useState(0);
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end end'],
-  });
-
-  const progressWidth = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
+  const progressBarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!containerRef.current || !scrollRef.current) return;
@@ -318,7 +295,13 @@ function DesktopHorizontalScroll() {
               Math.floor(progress * processSteps.length),
               processSteps.length - 1
             );
-            setActiveStep(stepIndex);
+            const cards = scrollRef.current!.children;
+            for (let i = 0; i < cards.length; i++) {
+              (cards[i] as HTMLElement).style.opacity = i === stepIndex ? '1' : '0.35';
+            }
+            if (progressBarRef.current) {
+              progressBarRef.current.style.width = `${progress * 100}%`;
+            }
           },
         },
       });
@@ -329,7 +312,6 @@ function DesktopHorizontalScroll() {
 
   return (
     <div ref={containerRef} style={{ position: 'relative' }}>
-      {/* Progress bar */}
       <div
         style={{
           position: 'fixed',
@@ -342,17 +324,17 @@ function DesktopHorizontalScroll() {
           pointerEvents: 'none',
         }}
       >
-        <motion.div
+        <div
+          ref={progressBarRef}
           style={{
             height: '100%',
             background: 'var(--electric-blue)',
-            width: progressWidth,
+            width: '0%',
             willChange: 'width',
           }}
         />
       </div>
 
-      {/* Horizontal track */}
       <div
         style={{
           height: '100vh',
@@ -379,7 +361,7 @@ function DesktopHorizontalScroll() {
                 display: 'flex',
                 alignItems: 'center',
                 padding: '0 clamp(40px, 8vw, 120px)',
-                opacity: activeStep === i ? 1 : 0.35,
+                opacity: i === 0 ? 1 : 0.35,
                 transition: 'opacity 0.5s ease',
               }}
             >
@@ -393,7 +375,7 @@ function DesktopHorizontalScroll() {
                 <StepCard
                   step={step}
                   index={i}
-                  isActive={activeStep === i}
+                  isActive={i === 0}
                 />
               </div>
             </div>
@@ -407,14 +389,6 @@ function DesktopHorizontalScroll() {
 export default function Process() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
   return (
     <section
@@ -428,11 +402,12 @@ export default function Process() {
     >
       {/* Section heading */}
       <div
+        className="process-heading"
         style={{
           maxWidth: 'var(--container-width)',
           margin: '0 auto',
           padding: 'var(--section-padding) var(--container-padding)',
-          paddingBottom: isMobile ? '48px' : '0',
+          paddingBottom: '0',
         }}
       >
         <motion.span
@@ -500,20 +475,36 @@ export default function Process() {
         </div>
       </div>
 
-      {/* Content */}
-      {isMobile ? (
-        <div
-          style={{
-            maxWidth: 'var(--container-width)',
-            margin: '0 auto',
-            padding: '0 var(--container-padding) var(--section-padding)',
-          }}
-        >
-          <MobileTimeline />
-        </div>
-      ) : (
+      {/* Desktop: always rendered, hidden via CSS on mobile */}
+      <div className="process-desktop">
         <DesktopHorizontalScroll />
-      )}
+      </div>
+
+      {/* Mobile: always rendered, hidden via CSS on desktop */}
+      <div
+        className="process-mobile"
+        style={{
+          maxWidth: 'var(--container-width)',
+          margin: '0 auto',
+          padding: '0 var(--container-padding) var(--section-padding)',
+        }}
+      >
+        <MobileTimeline />
+      </div>
+
+      <style>{`
+        .process-heading { padding-bottom: 0 !important; }
+        @media (min-width: 769px) {
+          .process-desktop { display: block !important; }
+          .process-mobile { display: none !important; }
+          .process-heading { padding-bottom: 0 !important; }
+        }
+        @media (max-width: 768px) {
+          .process-desktop { display: none !important; }
+          .process-mobile { display: block !important; }
+          .process-heading { padding-bottom: 48px !important; }
+        }
+      `}</style>
     </section>
   );
 }
