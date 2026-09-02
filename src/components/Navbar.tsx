@@ -11,7 +11,7 @@ const NAV_LINKS = [
   { label: 'Process', href: '#process' },
   { label: 'Work', href: '#work' },
   { label: 'Pricing', href: '#pricing' },
-  { label: 'Reviews', href: '#reviews' },
+  { label: 'Reviews', href: '#testimonials' },
   { label: 'FAQ', href: '#faq' },
 ] as const;
 
@@ -172,10 +172,10 @@ export default function Navbar() {
             </button>
 
             <a
-              href="#contact"
+              href="#cta"
               onClick={(e) => {
                 e.preventDefault();
-                scrollTo('#contact');
+                scrollTo('#cta');
               }}
               style={{
                 display: 'inline-flex',
@@ -307,10 +307,10 @@ export default function Navbar() {
               </button>
 
               <a
-                href="#contact"
+                href="#cta"
                 onClick={(e) => {
                   e.preventDefault();
-                  scrollTo('#contact');
+                  scrollTo('#cta');
                 }}
                 style={{
                   padding: '14px 32px',

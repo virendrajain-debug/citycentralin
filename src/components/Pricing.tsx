@@ -189,14 +189,14 @@ function PricingPanel({
 
       {/* CTA */}
       <motion.a
-        href="#contact"
+        href="#cta"
         onClick={(e) => {
           e.preventDefault();
-          const el = document.getElementById('contact');
+          const el = document.getElementById('cta');
           if (el) {
             el.scrollIntoView({ behavior: 'smooth', block: 'start' });
           } else {
-            window.location.hash = '#contact';
+            window.location.hash = '#cta';
           }
         }}
         whileHover={{ y: -2 }}

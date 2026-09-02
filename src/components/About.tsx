@@ -301,6 +301,7 @@ export default function About() {
   return (
     <section
       ref={containerRef}
+      id="about"
       style={{
         position: 'relative',
         minHeight: '100vh',

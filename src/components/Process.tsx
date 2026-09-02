@@ -419,6 +419,7 @@ export default function Process() {
   return (
     <section
       ref={sectionRef}
+      id="process"
       style={{
         position: 'relative',
         background: 'var(--bg-secondary)',

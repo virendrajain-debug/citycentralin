@@ -682,6 +682,7 @@ export default function Services() {
   return (
     <section
       ref={sectionRef}
+      id="services"
       style={{
         position: 'relative',
         height: `${9 * 100}vh`,

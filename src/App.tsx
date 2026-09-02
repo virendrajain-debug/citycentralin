@@ -15,7 +15,6 @@ import Pricing from './components/Pricing';
 import Testimonials from './components/Testimonials';
 import FAQ from './components/FAQ';
 import FinalCTA from './components/FinalCTA';
-import Contact from './components/Contact';
 import Footer from './components/Footer';
 import FloatingActions from './components/FloatingActions';
 import './styles/global.css';
@@ -65,7 +64,6 @@ function App() {
         <Testimonials />
         <FAQ />
         <FinalCTA />
-        <Contact />
       </main>
 
       <Footer />
