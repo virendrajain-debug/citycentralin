@@ -1,106 +1,108 @@
-import { useEffect, useState, useCallback } from 'react';
-import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
 
-const SPRING_CONFIG = { damping: 25, stiffness: 300, mass: 0.5 };
-const EXPANDED_SIZE = 48;
+const SPRING = 0.15;
 const DOT_SIZE = 8;
+const EXPANDED_SIZE = 48;
 
-function CursorInner() {
-  const [isHovering, setIsHovering] = useState(false);
-  const [isExplore, setIsExplore] = useState(false);
-
-  const cursorX = useMotionValue(-100);
-  const cursorY = useMotionValue(-100);
-
-  const springX = useSpring(cursorX, SPRING_CONFIG);
-  const springY = useSpring(cursorY, SPRING_CONFIG);
-
-  const size = isHovering ? EXPANDED_SIZE : DOT_SIZE;
-
-  const handleMouseMove = useCallback(
-    (e: MouseEvent) => {
-      cursorX.set(e.clientX);
-      cursorY.set(e.clientY);
-    },
-    [cursorX, cursorY],
-  );
+export default function CustomCursor() {
+  const dotRef = useRef<HTMLDivElement>(null);
+  const pos = useRef({ x: -100, y: -100 });
+  const target = useRef({ x: -100, y: -100 });
+  const raf = useRef(0);
+  const [isMobile, setIsMobile] = useState(true);
 
   useEffect(() => {
-    const onPointerOver = (e: PointerEvent) => {
-      const target = e.target as HTMLElement;
-      if (!target?.closest('a, button, [data-cursor]')) {
-        setIsHovering(false);
-        setIsExplore(false);
+    if (typeof window === 'undefined') return;
+
+    const mql = window.matchMedia('(min-width: 1024px)');
+    setIsMobile(!mql.matches);
+
+    const onChange = (e: MediaQueryListEvent) => setIsMobile(!e.matches);
+    mql.addEventListener('change', onChange);
+
+    const onMove = (e: MouseEvent) => {
+      target.current.x = e.clientX;
+      target.current.y = e.clientY;
+    };
+
+    const onOver = (e: PointerEvent) => {
+      const el = (e.target as HTMLElement)?.closest?.('a, button, [data-cursor]');
+      if (!el) {
+        if (dotRef.current) {
+          dotRef.current.style.width = DOT_SIZE + 'px';
+          dotRef.current.style.height = DOT_SIZE + 'px';
+          dotRef.current.style.backgroundColor = '#0A0A0A';
+          dotRef.current.style.color = 'transparent';
+        }
         return;
       }
-      setIsHovering(true);
-      const el = target.closest('[data-cursor]');
-      setIsExplore(el?.getAttribute('data-cursor') === 'explore');
+      if (dotRef.current) {
+        dotRef.current.style.width = EXPANDED_SIZE + 'px';
+        dotRef.current.style.height = EXPANDED_SIZE + 'px';
+        dotRef.current.style.backgroundColor = 'var(--text-primary)';
+        dotRef.current.style.color = '#FFFFFF';
+      }
+      const cursor = (e.target as HTMLElement)?.closest?.('[data-cursor]');
+      const span = dotRef.current?.querySelector('span');
+      if (span) {
+        span.textContent = cursor?.getAttribute('data-cursor') === 'explore' ? 'EXPLORE' : '';
+      }
     };
 
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    window.addEventListener('pointerover', onPointerOver, { passive: true });
+    const tick = () => {
+      pos.current.x += (target.current.x - pos.current.x) * SPRING;
+      pos.current.y += (target.current.y - pos.current.y) * SPRING;
+      if (dotRef.current) {
+        dotRef.current.style.transform = `translate(${pos.current.x}px, ${pos.current.y}px) translate(-50%, -50%)`;
+      }
+      raf.current = requestAnimationFrame(tick);
+    };
+
+    window.addEventListener('mousemove', onMove, { passive: true });
+    window.addEventListener('pointerover', onOver, { passive: true });
+    raf.current = requestAnimationFrame(tick);
 
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('pointerover', onPointerOver);
+      mql.removeEventListener('change', onChange);
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('pointerover', onOver);
+      cancelAnimationFrame(raf.current);
     };
-  }, [handleMouseMove]);
+  }, []);
+
+  if (isMobile) return null;
 
   return (
-    <motion.div
+    <div
+      ref={dotRef}
       aria-hidden="true"
-      className="custom-cursor-dot"
       style={{
         position: 'fixed',
         top: 0,
         left: 0,
-        x: springX,
-        y: springY,
-        width: size,
-        height: size,
+        width: DOT_SIZE,
+        height: DOT_SIZE,
         borderRadius: '50%',
-        backgroundColor: isHovering ? 'var(--text-primary)' : '#0A0A0A',
-        color: isHovering ? '#FFFFFF' : 'transparent',
+        backgroundColor: '#0A0A0A',
+        color: 'transparent',
         pointerEvents: 'none',
         zIndex: 99999,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        translateX: '-50%',
-        translateY: '-50%',
-        transition: 'background-color 0.2s ease, color 0.2s ease',
+        willChange: 'transform',
+        transition: 'width 0.2s ease, height 0.2s ease, background-color 0.2s ease, color 0.2s ease',
       }}
     >
-      {isExplore && (
-        <span
-          style={{
-            fontSize: '10px',
-            fontWeight: 700,
-            letterSpacing: '0.08em',
-            whiteSpace: 'nowrap',
-            userSelect: 'none',
-          }}
-        >
-          EXPLORE
-        </span>
-      )}
-    </motion.div>
-  );
-}
-
-export default function CustomCursor() {
-  return (
-    <div
-      className="custom-cursor-wrapper"
-      style={{ display: 'contents' }}
-    >
-      <CursorInner />
-      <style>{`
-        @media (max-width: 1023px) {
-          .custom-cursor-wrapper { display: none !important; }
-        }
-      `}</style>
+      <span
+        style={{
+          fontSize: '10px',
+          fontWeight: 700,
+          letterSpacing: '0.08em',
+          whiteSpace: 'nowrap',
+          userSelect: 'none',
+        }}
+      />
     </div>
   );
 }

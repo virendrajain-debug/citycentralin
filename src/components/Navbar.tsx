@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Sun, Moon, Menu, X } from 'lucide-react';
 import { useTheme } from '../hooks/useTheme';
 
@@ -224,112 +224,98 @@ export default function Navbar() {
         </div>
       </motion.header>
 
-      {/* Mobile Overlay */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3, ease: ease }}
+      {/* Mobile Overlay - CSS toggled, no AnimatePresence */}
+      <div
+        className="mobile-overlay"
+        style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: 999,
+          backgroundColor: 'var(--bg-primary)',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '8px',
+          opacity: mobileOpen ? 1 : 0,
+          pointerEvents: mobileOpen ? 'auto' : 'none',
+          transition: 'opacity 0.3s cubic-bezier(0.16,1,0.3,1)',
+        }}
+      >
+        {NAV_LINKS.map((link, i) => (
+          <a
+            key={link.href}
+            href={link.href}
+            onClick={(e) => {
+              e.preventDefault();
+              scrollTo(link.href);
+            }}
             style={{
-              position: 'fixed',
-              inset: 0,
-              zIndex: 999,
-              backgroundColor: 'var(--bg-primary)',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '8px',
+              fontSize: 'clamp(28px, 6vw, 40px)',
+              fontWeight: 600,
+              color: 'var(--text-primary)',
+              textDecoration: 'none',
+              letterSpacing: '-0.02em',
+              opacity: mobileOpen ? 1 : 0,
+              transform: mobileOpen ? 'translateY(0)' : 'translateY(20px)',
+              transition: `opacity 0.4s cubic-bezier(0.16,1,0.3,1) ${0.1 + i * 0.05}s, transform 0.4s cubic-bezier(0.16,1,0.3,1) ${0.1 + i * 0.05}s`,
             }}
           >
-            {NAV_LINKS.map((link, i) => (
-              <motion.a
-                key={link.href}
-                href={link.href}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                transition={{
-                  delay: 0.1 + i * 0.05,
-                  duration: 0.4,
-                  ease: ease,
-                }}
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollTo(link.href);
-                }}
-                style={{
-                  fontSize: 'clamp(28px, 6vw, 40px)',
-                  fontWeight: 600,
-                  color: 'var(--text-primary)',
-                  textDecoration: 'none',
-                  letterSpacing: '-0.02em',
-                }}
-              >
-                {link.label}
-              </motion.a>
-            ))}
+            {link.label}
+          </a>
+        ))}
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              transition={{
-                delay: 0.1 + NAV_LINKS.length * 0.05,
-                duration: 0.4,
-                ease: ease,
-              }}
-              style={{
-                marginTop: '32px',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: '16px',
-              }}
-            >
-              <button
-                onClick={toggleTheme}
-                aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-                style={{
-                  width: 48,
-                  height: 48,
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'var(--text-secondary)',
-                  border: '1px solid var(--border-color)',
-                }}
-              >
-                {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-              </button>
+        <div
+          style={{
+            marginTop: '32px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '16px',
+            opacity: mobileOpen ? 1 : 0,
+            transform: mobileOpen ? 'translateY(0)' : 'translateY(20px)',
+            transition: `opacity 0.4s cubic-bezier(0.16,1,0.3,1) ${0.1 + NAV_LINKS.length * 0.05}s, transform 0.4s cubic-bezier(0.16,1,0.3,1) ${0.1 + NAV_LINKS.length * 0.05}s`,
+          }}
+        >
+          <button
+            onClick={toggleTheme}
+            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            style={{
+              width: 48,
+              height: 48,
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'var(--text-secondary)',
+              border: '1px solid var(--border-color)',
+            }}
+          >
+            {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+          </button>
 
-              <a
-                href="#cta"
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollTo('#cta');
-                }}
-                style={{
-                  padding: '14px 32px',
-                  fontSize: '14px',
-                  fontWeight: 600,
-                  letterSpacing: '0.04em',
-                  textTransform: 'uppercase',
-                  color: '#FFFFFF',
-                  backgroundColor: 'var(--electric-blue)',
-                  borderRadius: '6px',
-                  textDecoration: 'none',
-                }}
-              >
-                GET FREE CONSULTATION
-              </a>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          <a
+            href="#cta"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollTo('#cta');
+            }}
+            style={{
+              padding: '14px 32px',
+              fontSize: '14px',
+              fontWeight: 600,
+              letterSpacing: '0.04em',
+              textTransform: 'uppercase',
+              color: '#FFFFFF',
+              backgroundColor: 'var(--electric-blue)',
+              borderRadius: '6px',
+              textDecoration: 'none',
+            }}
+          >
+            GET FREE CONSULTATION
+          </a>
+        </div>
+      </div>
 
       {/* Responsive CSS injected via style tag */}
       <style>{`
@@ -339,6 +325,7 @@ export default function Navbar() {
         }
         @media (min-width: 1024px) {
           .mobile-menu-btn { display: none !important; }
+          .mobile-overlay { display: none !important; }
         }
       `}</style>
     </>
