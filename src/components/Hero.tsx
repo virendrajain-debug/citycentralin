@@ -267,7 +267,7 @@ export default function Hero() {
           style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}
         >
           <a
-            href="#contact"
+            href="tel:+918889825105"
             style={{
               display: 'inline-flex',
               alignItems: 'center',

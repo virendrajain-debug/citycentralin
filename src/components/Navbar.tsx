@@ -172,11 +172,7 @@ export default function Navbar() {
             </button>
 
             <a
-              href="#cta"
-              onClick={(e) => {
-                e.preventDefault();
-                scrollTo('#cta');
-              }}
+              href="tel:+918889825105"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -294,13 +290,9 @@ export default function Navbar() {
             {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
           </button>
 
-          <a
-            href="#cta"
-            onClick={(e) => {
-              e.preventDefault();
-              scrollTo('#cta');
-            }}
-            style={{
+              <a
+                href="tel:+918889825105"
+                style={{
               padding: '14px 32px',
               fontSize: '14px',
               fontWeight: 600,

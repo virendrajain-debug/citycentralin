@@ -189,16 +189,7 @@ function PricingPanel({
 
       {/* CTA */}
       <motion.a
-        href="#cta"
-        onClick={(e) => {
-          e.preventDefault();
-          const el = document.getElementById('cta');
-          if (el) {
-            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          } else {
-            window.location.hash = '#cta';
-          }
-        }}
+        href="tel:+918889825105"
         whileHover={{ y: -2 }}
         style={{
           display: 'flex',

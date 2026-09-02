@@ -173,7 +173,7 @@ export default function FinalCTA() {
           style={{ marginBottom: '64px' }}
         >
           <motion.a
-            href="#contact"
+            href="tel:+918889825105"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.98 }}
             style={{
