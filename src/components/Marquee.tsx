@@ -70,10 +70,10 @@ export default function Marquee() {
   return (
     <section
       ref={containerRef}
+      className="marquee-section"
       style={{
         position: 'relative',
-        width: '100vw',
-        marginLeft: 'calc(-50vw + 50%)',
+        width: '100%',
         overflow: 'hidden',
         borderTop: '1px solid var(--border-color)',
         borderBottom: '1px solid var(--border-color)',
@@ -82,6 +82,14 @@ export default function Marquee() {
         userSelect: 'none',
       }}
     >
+      <style>{`
+        @media (min-width: 769px) {
+          .marquee-section {
+            width: 100vw;
+            margin-left: calc(-50vw + 50%);
+          }
+        }
+      `}</style>
       <div
         ref={trackRef}
         style={{

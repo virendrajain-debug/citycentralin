@@ -262,3 +262,10 @@ input, textarea, select {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Mobile cursor hide */
+@media (max-width: 1023px) {
+  .custom-cursor-dot {
+    display: none !important;
+  }
+}

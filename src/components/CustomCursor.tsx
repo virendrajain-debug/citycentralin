@@ -50,6 +50,7 @@ function CursorInner() {
   return (
     <motion.div
       aria-hidden="true"
+      className="custom-cursor-dot"
       style={{
         position: 'fixed',
         top: 0,
@@ -89,19 +90,17 @@ function CursorInner() {
 }
 
 export default function CustomCursor() {
-  const [isDesktop, setIsDesktop] = useState(false);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const mql = window.matchMedia('(min-width: 1024px)');
-    setIsDesktop(mql.matches);
-
-    const onChange = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
-    mql.addEventListener('change', onChange);
-    return () => mql.removeEventListener('change', onChange);
-  }, []);
-
-  if (!isDesktop) return null;
-
-  return <CursorInner />;
+  return (
+    <div
+      className="custom-cursor-wrapper"
+      style={{ display: 'contents' }}
+    >
+      <CursorInner />
+      <style>{`
+        @media (max-width: 1023px) {
+          .custom-cursor-wrapper { display: none !important; }
+        }
+      `}</style>
+    </div>
+  );
 }
