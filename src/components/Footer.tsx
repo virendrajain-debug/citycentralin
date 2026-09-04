@@ -378,7 +378,7 @@ export default function Footer() {
               margin: 0,
             }}
           >
-            Built with care by Varun Jain Productions.
+            Built with care by Varun Jain
           </p>
         </div>
       </div>
