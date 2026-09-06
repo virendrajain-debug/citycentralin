@@ -473,7 +473,7 @@ function ServiceSlide({
               fontVariantNumeric: 'tabular-nums',
               fontFeatureSettings: '"tnum"',
               color: 'var(--electric-blue)',
-              opacity: 0.08,
+              opacity: 0.18,
               lineHeight: 1,
               display: 'block',
               marginBottom: '-20px',
@@ -574,7 +574,7 @@ function MobileServiceCard({
         ease: ease,
       }}
       style={{
-        padding: 'clamp(24px, 5vw, 40px)',
+        padding: 'clamp(20px, 4vw, 32px)',
         background: BG_COLORS[index],
         borderRadius: '12px',
         border: '1px solid var(--border-color)',
@@ -583,29 +583,28 @@ function MobileServiceCard({
       <div
         style={{
           display: 'flex',
-          alignItems: 'flex-start',
+          alignItems: 'center',
           justifyContent: 'space-between',
-          marginBottom: '20px',
-          flexWrap: 'wrap',
-          gap: '16px',
+          marginBottom: '16px',
         }}
       >
-        <div>
+        <div style={{ flex: 1 }}>
           <span
             style={{
-              fontSize: '13px',
-              fontWeight: 600,
-              letterSpacing: '0.15em',
+              fontSize: '14px',
+              fontWeight: 700,
+              letterSpacing: '0.1em',
               color: 'var(--electric-blue)',
+              opacity: 0.85,
               display: 'block',
-              marginBottom: '8px',
+              marginBottom: '6px',
             }}
           >
             {num}
           </span>
           <h3
             style={{
-              fontSize: 'clamp(22px, 4vw, 28px)',
+              fontSize: 'clamp(18px, 4.5vw, 24px)',
               fontWeight: 700,
               lineHeight: 1.15,
               letterSpacing: '-0.02em',
@@ -616,7 +615,7 @@ function MobileServiceCard({
             {service.title}
           </h3>
         </div>
-        <div style={{ opacity: 0.6 }}>
+        <div style={{ opacity: 0.5, flexShrink: 0, marginLeft: '12px' }}>
           <Visual />
         </div>
       </div>
@@ -624,7 +623,7 @@ function MobileServiceCard({
         style={{
           display: 'flex',
           flexDirection: 'column',
-          gap: '8px',
+          gap: '6px',
           listStyle: 'none',
           padding: 0,
           margin: 0,
@@ -636,19 +635,19 @@ function MobileServiceCard({
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '10px',
-              fontSize: '14px',
+              gap: '8px',
+              fontSize: '13px',
               color: 'var(--text-secondary)',
-              lineHeight: 1.5,
+              lineHeight: 1.4,
             }}
           >
             <span
               style={{
-                width: '5px',
-                height: '5px',
+                width: '4px',
+                height: '4px',
                 borderRadius: '50%',
                 backgroundColor: 'var(--electric-blue)',
-                opacity: 0.35,
+                opacity: 0.5,
                 flexShrink: 0,
               }}
             />
@@ -774,10 +773,10 @@ export default function Services() {
             height: '100%',
             overflowY: 'auto',
             overflowX: 'hidden',
-            padding: 'clamp(100px, 14vh, 160px) var(--container-padding) var(--container-padding)',
+            padding: 'clamp(80px, 12vh, 140px) var(--container-padding) var(--container-padding)',
             display: 'none',
             flexDirection: 'column',
-            gap: '16px',
+            gap: '12px',
           }}
         >
           {services.map((service, i) => (
@@ -822,8 +821,10 @@ export default function Services() {
           .services-heading { display: block !important; }
         }
         @media (max-width: 768px) {
+          #services { height: auto !important; }
+          #services > div:first-child { position: relative !important; height: auto !important; overflow: visible !important; }
           .services-desktop { display: none !important; }
-          .services-mobile { display: flex !important; }
+          .services-mobile { display: flex !important; position: relative !important; height: auto !important; overflow: visible !important; padding: 100px var(--container-padding) var(--container-padding) !important; }
           .services-heading { position: relative !important; top: auto !important; left: auto !important; right: auto !important; margin-bottom: 24px !important; }
           .services-mobile::-webkit-scrollbar { display: none; }
           .services-mobile { -ms-overflow-style: none; scrollbar-width: none; }

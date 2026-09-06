@@ -265,6 +265,7 @@ export default function Hero() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 2.8, duration: 0.8, ease: ease }}
           style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}
+          className="hero-cta-group"
         >
           <a
             href="tel:+918889825105"
@@ -334,6 +335,14 @@ export default function Hero() {
           }
           .hero-particle {
             opacity: 0.15 !important;
+          }
+          .hero-cta-group {
+            flex-direction: column !important;
+            width: 100% !important;
+          }
+          .hero-cta-group a {
+            width: 100% !important;
+            justify-content: center !important;
           }
         }
       `}</style>

@@ -176,6 +176,7 @@ export default function FinalCTA() {
             href="tel:+918889825105"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.98 }}
+            className="cta-button"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -265,9 +266,11 @@ export default function FinalCTA() {
 
     <style>{`
       @media (max-width: 768px) {
-        #cta a[style*="padding: 20px 48px"] {
+        #cta .cta-button {
           padding: 16px 32px !important;
           font-size: 13px !important;
+          width: 100% !important;
+          justify-content: center !important;
         }
       }
     `}</style>

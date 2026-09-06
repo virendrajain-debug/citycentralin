@@ -21,7 +21,7 @@ export default function FloatingActions() {
   };
 
   return (
-    <div style={{
+    <div className="floating-actions" style={{
       position: 'fixed',
       bottom: '24px',
       right: '24px',
@@ -95,6 +95,21 @@ export default function FloatingActions() {
       >
         <MessageCircle size={18} />
       </motion.a>
+
+      <style>{`
+        @media (max-width: 480px) {
+          .floating-actions {
+            bottom: 16px !important;
+            right: 16px !important;
+            gap: 8px !important;
+          }
+          .floating-actions a,
+          .floating-actions button {
+            width: 42px !important;
+            height: 42px !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }

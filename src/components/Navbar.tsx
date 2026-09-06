@@ -87,15 +87,23 @@ export default function Navbar() {
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
             style={{
-              fontSize: '18px',
-              fontWeight: 700,
-              letterSpacing: '-0.02em',
-              textTransform: 'uppercase',
-              color: 'var(--text-primary)',
+              display: 'flex',
+              alignItems: 'center',
               textDecoration: 'none',
+              flexShrink: 0,
             }}
           >
-            CITYCENTRAL.IN
+            <img
+              src="/logo.png"
+              alt="City Central India"
+              className="nav-logo"
+              style={{
+                height: '72px',
+                width: 'auto',
+                maxHeight: '72px',
+                objectFit: 'contain',
+              }}
+            />
           </a>
 
           {/* Desktop Nav Links */}
@@ -238,6 +246,35 @@ export default function Navbar() {
           transition: 'opacity 0.3s cubic-bezier(0.16,1,0.3,1)',
         }}
       >
+        {/* Mobile Logo */}
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            scrollTo('#');
+          }}
+          style={{
+            position: 'absolute',
+            top: '20px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            display: 'flex',
+            alignItems: 'center',
+            textDecoration: 'none',
+          }}
+        >
+          <img
+            src="/logo.png"
+            alt="City Central India"
+            className="mobile-logo-img"
+            style={{
+              height: '60px',
+              width: 'auto',
+              maxHeight: '60px',
+              objectFit: 'contain',
+            }}
+          />
+        </a>
         {NAV_LINKS.map((link, i) => (
           <a
             key={link.href}
@@ -314,10 +351,16 @@ export default function Navbar() {
         @media (max-width: 1023px) {
           .desktop-nav, .desktop-actions { display: none !important; }
           .mobile-menu-btn { display: flex !important; }
+          .nav-logo { height: 52px !important; max-height: 52px !important; }
         }
         @media (min-width: 1024px) {
           .mobile-menu-btn { display: none !important; }
           .mobile-overlay { display: none !important; }
+          .nav-logo { height: 60px !important; max-height: 60px !important; }
+        }
+        @media (max-width: 480px) {
+          .mobile-overlay .mobile-logo-img { height: 52px !important; }
+          .nav-logo { height: 48px !important; max-height: 48px !important; }
         }
       `}</style>
     </>

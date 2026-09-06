@@ -5,7 +5,7 @@ import { useCountUp } from '../hooks/useCountUp';
 const ease = [0.16, 1, 0.3, 1] as const;
 
 const METRICS = [
-  { end: 250, suffix: '+', label: 'BRANDS SERVED' },
+  { end: 100, suffix: '+', label: 'BRANDS SERVED' },
   { end: 10, suffix: 'M+', label: 'VIEWS GENERATED' },
   { end: 98, suffix: '%', label: 'CLIENT SATISFACTION' },
   { end: 5, suffix: '+', label: 'YEARS EXPERIENCE' },
@@ -86,6 +86,7 @@ export default function Metrics() {
     >
       {/* Animated horizontal line */}
       <motion.div
+        className="metrics-horizontal-line"
         initial={{ scaleX: 0 }}
         animate={isInView ? { scaleX: 1 } : {}}
         transition={{ duration: 1.8, delay: 0.2, ease: ease }}
@@ -103,6 +104,7 @@ export default function Metrics() {
 
       {/* Moving diagonal line background */}
       <div
+        className="metrics-diagonal-line"
         style={{
           position: 'absolute',
           top: '-20%',
@@ -143,6 +145,7 @@ export default function Metrics() {
             <div key={metric.label} style={{ display: 'flex', alignItems: 'stretch', flex: '1 1 0' }}>
               {i > 0 && (
                 <motion.div
+                  className="metrics-divider-line"
                   initial={{ scaleY: 0 }}
                   animate={isInView ? { scaleY: 1 } : {}}
                   transition={{
@@ -188,11 +191,17 @@ export default function Metrics() {
           .metrics-row > div:last-child {
             border-bottom: none;
           }
-          .metrics-row > div > div:first-child {
+          .metrics-divider-line {
             display: none !important;
           }
           .metrics-row > div > div:last-child {
             padding: 0 !important;
+          }
+          .metrics-horizontal-line {
+            display: none !important;
+          }
+          .metrics-diagonal-line {
+            display: none !important;
           }
         }
       `}</style>

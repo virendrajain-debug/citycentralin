@@ -284,6 +284,7 @@ function ProjectCard({
   return (
     <motion.div
       ref={cardRef}
+      data-project-card=""
       initial={{ opacity: 0, y: 60 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{
@@ -418,6 +419,7 @@ function ProjectCard({
 
       {/* Visual side */}
       <motion.div
+        data-project-visual=""
         style={{
           flex: 1,
           minWidth: 0,
@@ -587,8 +589,18 @@ export default function SelectedWork() {
           opacity: 1 !important;
         }
         @media (max-width: 768px) {
-          [data-project] > div:first-child {
+          [data-project] [data-project-card] {
             flex-direction: column !important;
+            padding: 40px 0 !important;
+            gap: 24px !important;
+          }
+          [data-project] [data-project-card] > div {
+            flex: none !important;
+            width: 100% !important;
+          }
+          [data-project] [data-project-visual] {
+            order: -1 !important;
+            justify-content: center !important;
           }
           .project-number {
             display: none !important;
