@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Phone, Mail, MapPin, ArrowLeft, Sparkles } from 'lucide-react';
+import { Phone, Mail, MapPin, ArrowLeft } from 'lucide-react';
 import { goHome, PHONE_DISPLAY, PHONE_TEL, EMAIL_DISPLAY, EMAIL_MAILTO } from '../lib/router';
 
 const ease = [0.16, 1, 0.3, 1] as const;
@@ -305,38 +305,18 @@ export default function AboutPage() {
           }}
         />
 
-        <div
-          style={{
-            position: 'relative',
-            zIndex: 1,
-            width: '100%',
-            maxWidth: 'var(--container-width)',
-            margin: '0 auto',
-            padding: '100px var(--container-padding)',
-            textAlign: 'center',
-          }}
-        >
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.7, ease: ease }}
+<div
             style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '12px',
-              padding: '10px 22px',
-              border: '1px solid rgba(255,255,255,0.1)',
-              borderRadius: '100px',
-              marginBottom: '40px',
+              position: 'relative',
+              zIndex: 1,
+              width: '100%',
+              maxWidth: 'var(--container-width)',
+              margin: '0 auto',
+              padding: '100px var(--container-padding)',
+              textAlign: 'center',
             }}
           >
-            <Sparkles size={14} color="var(--electric-blue)" />
-            <span style={{ fontSize: '12px', fontWeight: 600, letterSpacing: '0.18em', color: '#C8C8C8' }}>
-              THE STORY BEHIND THE BRAND
-            </span>
-          </motion.div>
-
-          <div style={{ overflow: 'hidden' }}>
+            <div style={{ overflow: 'hidden' }}>
             <motion.h1
               initial={{ y: '110%' }}
               animate={{ y: 0 }}

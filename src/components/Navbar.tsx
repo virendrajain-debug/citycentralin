@@ -2,12 +2,13 @@ import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Sun, Moon, Menu, X } from 'lucide-react';
 import { useTheme } from '../hooks/useTheme';
-import { goHome, navigateToSection, NAVBAR_HEIGHT, PHONE_TEL } from '../lib/router';
+import { goHome, goAbout, navigateToSection, NAVBAR_HEIGHT, PHONE_TEL } from '../lib/router';
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
 const NAV_LINKS = [
   { label: 'Home', href: '#home' },
+  { label: 'About', href: '#about-page' },
   { label: 'Services', href: '#services' },
   { label: 'Process', href: '#process' },
   { label: 'Work', href: '#work' },
@@ -39,6 +40,10 @@ export default function Navbar() {
     setMobileOpen(false);
     if (href === '#home') {
       goHome();
+      return;
+    }
+    if (href === '#about-page') {
+      goAbout();
       return;
     }
     navigateToSection(href.replace('#', ''));
