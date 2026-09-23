@@ -1,5 +1,15 @@
 import { motion } from 'framer-motion';
-import { MessageCircle, Phone, Mail } from 'lucide-react';
+import { MessageCircle, Phone, Mail, MapPin } from 'lucide-react';
+import {
+  goHome,
+  goAbout,
+  navigateToSection,
+  PHONE_DISPLAY,
+  PHONE_TEL,
+  EMAIL_DISPLAY,
+  EMAIL_MAILTO,
+  WHATSAPP_URL,
+} from '../lib/router';
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
@@ -23,7 +33,8 @@ function InstagramIcon({ size = 20, strokeWidth = 1.5 }: { size?: number; stroke
 }
 
 const QUICK_LINKS = [
-  { label: 'About', href: '#about' },
+  { label: 'Home', href: '#home' },
+  { label: 'About', href: '#about-page' },
   { label: 'Services', href: '#services' },
   { label: 'Process', href: '#process' },
   { label: 'Pricing', href: '#pricing' },
@@ -36,21 +47,22 @@ const COMPANY_LINKS = [
 
 const SOCIAL_LINKS = [
   { icon: InstagramIcon, href: 'https://instagram.com/citycentralindia', label: 'Instagram' },
-  { icon: MessageCircle, href: 'https://wa.me/918889825105', label: 'WhatsApp' },
-  { icon: Phone, href: 'tel:+918889825105', label: 'Phone' },
-  { icon: Mail, href: 'mailto:work@socialcitycentral.in', label: 'Email' },
+  { icon: MessageCircle, href: WHATSAPP_URL, label: 'WhatsApp' },
+  { icon: Phone, href: PHONE_TEL, label: 'Phone' },
+  { icon: Mail, href: EMAIL_MAILTO, label: 'Email' },
 ];
 
-function scrollTo(href: string) {
-  if (href.startsWith('#')) {
-    const id = href.replace('#', '');
-    const el = document.getElementById(id);
-    if (el) {
-      const NAVBAR_HEIGHT = 80;
-      const y = el.getBoundingClientRect().top + window.scrollY - NAVBAR_HEIGHT;
-      window.scrollTo({ top: y, behavior: 'smooth' });
-    }
+function handleLinkClick(e: React.MouseEvent<HTMLAnchorElement>, href: string) {
+  e.preventDefault();
+  if (href === '#home') {
+    goHome();
+    return;
   }
+  if (href === '#about-page') {
+    goAbout();
+    return;
+  }
+  navigateToSection(href.replace('#', ''));
 }
 
 export default function Footer() {
@@ -139,10 +151,7 @@ export default function Footer() {
                   <a
                     key={link.href}
                     href={link.href}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      scrollTo(link.href);
-                    }}
+                    onClick={(e) => handleLinkClick(e, link.href)}
                     style={{
                       fontSize: '15px',
                       color: 'var(--text-secondary)',
@@ -181,10 +190,7 @@ export default function Footer() {
                   <a
                     key={link.href}
                     href={link.href}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      scrollTo(link.href);
-                    }}
+                    onClick={(e) => handleLinkClick(e, link.href)}
                     style={{
                       fontSize: '15px',
                       color: 'var(--text-secondary)',
@@ -219,78 +225,58 @@ export default function Footer() {
                 Get In Touch
               </h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                <a
-                  href="tel:+918889825105"
-                  style={{
-                    fontSize: '15px',
-                    color: 'var(--text-secondary)',
-                    textDecoration: 'none',
-                    transition: 'color 0.2s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)';
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)';
-                  }}
-                >
-                  +91 8889825105
-                </a>
-                <a
-                  href="mailto:work@socialcitycentral.in"
-                  style={{
-                    fontSize: '15px',
-                    color: 'var(--text-secondary)',
-                    textDecoration: 'none',
-                    transition: 'color 0.2s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)';
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)';
-                  }}
-                >
-                  work@socialcitycentral.in
-                </a>
-                <a
-                  href="https://socialcitycentral.in"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    fontSize: '15px',
-                    color: 'var(--text-secondary)',
-                    textDecoration: 'none',
-                    transition: 'color 0.2s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)';
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)';
-                  }}
-                >
-                  socialcitycentral.in
-                </a>
-                <a
-                  href="https://instagram.com/citycentralindia"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    fontSize: '15px',
-                    color: 'var(--text-secondary)',
-                    textDecoration: 'none',
-                    transition: 'color 0.2s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)';
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)';
-                  }}
-                >
-                  @citycentralindia
-                </a>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                  <Phone size={17} color="var(--electric-blue)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <a
+                    href={PHONE_TEL}
+                    style={{
+                      fontSize: '15px',
+                      color: 'var(--text-secondary)',
+                      textDecoration: 'none',
+                      transition: 'color 0.2s ease',
+                    }}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)';
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)';
+                    }}
+                  >
+                    {PHONE_DISPLAY}
+                  </a>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                  <Mail size={17} color="var(--electric-blue)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <a
+                    href={EMAIL_MAILTO}
+                    style={{
+                      fontSize: '15px',
+                      color: 'var(--text-secondary)',
+                      textDecoration: 'none',
+                      transition: 'color 0.2s ease',
+                    }}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)';
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)';
+                    }}
+                  >
+                    {EMAIL_DISPLAY}
+                  </a>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                  <MapPin size={17} color="var(--electric-blue)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <span style={{ fontSize: '15px', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                    301/1, Preconco Colony,<br />Indore, Madhya Pradesh
+                  </span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                  <MapPin size={17} color="var(--electric-blue)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <span style={{ fontSize: '15px', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                    Moneyarc Apartment, D Block,<br />Indore, PIN 452009
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -378,7 +364,7 @@ export default function Footer() {
               margin: 0,
             }}
           >
-            Built with care by Varun Jain
+            Founded &amp; led by Divyansh Namdev
           </p>
         </div>
       </div>

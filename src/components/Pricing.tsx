@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { pricingTiers } from '../data/pricing';
+import { PHONE_TEL } from '../lib/router';
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
@@ -189,7 +190,7 @@ function PricingPanel({
 
       {/* CTA */}
       <motion.a
-        href="tel:+918889825105"
+        href={PHONE_TEL}
         whileHover={{ y: -2 }}
         style={{
           display: 'flex',

@@ -1,5 +1,6 @@
 import { useRef, useMemo } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { PHONE_TEL } from '../lib/router';
 
 const WORDS = ['STRATEGY', 'CREATIVITY', 'GROWTH'] as const;
 
@@ -268,7 +269,7 @@ export default function Hero() {
           className="hero-cta-group"
         >
           <a
-            href="tel:+918889825105"
+            href={PHONE_TEL}
             style={{
               display: 'inline-flex',
               alignItems: 'center',

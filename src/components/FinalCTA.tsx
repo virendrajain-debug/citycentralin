@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import { PHONE_TEL, PHONE_DISPLAY, EMAIL_MAILTO, EMAIL_DISPLAY } from '../lib/router';
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
@@ -173,7 +174,7 @@ export default function FinalCTA() {
           style={{ marginBottom: '64px' }}
         >
           <motion.a
-            href="tel:+918889825105"
+            href={PHONE_TEL}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.98 }}
             className="cta-button"
@@ -223,7 +224,7 @@ export default function FinalCTA() {
           }}
         >
           <a
-            href="tel:+918889825105"
+            href={PHONE_TEL}
             style={{
               fontSize: 'clamp(14px, 1.2vw, 18px)',
               color: 'rgba(255,255,255,0.4)',
@@ -239,10 +240,10 @@ export default function FinalCTA() {
                 'rgba(255,255,255,0.4)';
             }}
           >
-            +91 8889825105
+            {PHONE_DISPLAY}
           </a>
           <a
-            href="mailto:work@socialcitycentral.in"
+            href={EMAIL_MAILTO}
             style={{
               fontSize: 'clamp(14px, 1.2vw, 18px)',
               color: 'rgba(255,255,255,0.4)',
@@ -258,7 +259,7 @@ export default function FinalCTA() {
                 'rgba(255,255,255,0.4)';
             }}
           >
-            work@socialcitycentral.in
+            {EMAIL_DISPLAY}
           </a>
         </motion.div>
       </div>

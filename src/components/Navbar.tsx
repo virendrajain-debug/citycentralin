@@ -2,11 +2,12 @@ import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Sun, Moon, Menu, X } from 'lucide-react';
 import { useTheme } from '../hooks/useTheme';
+import { goHome, navigateToSection, NAVBAR_HEIGHT, PHONE_TEL } from '../lib/router';
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
 const NAV_LINKS = [
-  { label: 'About', href: '#about' },
+  { label: 'Home', href: '#home' },
   { label: 'Services', href: '#services' },
   { label: 'Process', href: '#process' },
   { label: 'Work', href: '#work' },
@@ -14,8 +15,6 @@ const NAV_LINKS = [
   { label: 'Reviews', href: '#testimonials' },
   { label: 'FAQ', href: '#faq' },
 ] as const;
-
-const NAVBAR_HEIGHT = 80;
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
@@ -38,12 +37,11 @@ export default function Navbar() {
 
   const scrollTo = useCallback((href: string) => {
     setMobileOpen(false);
-    const id = href.replace('#', '');
-    const el = document.getElementById(id);
-    if (el) {
-      const y = el.getBoundingClientRect().top + window.scrollY - NAVBAR_HEIGHT;
-      window.scrollTo({ top: y, behavior: 'smooth' });
+    if (href === '#home') {
+      goHome();
+      return;
     }
+    navigateToSection(href.replace('#', ''));
   }, []);
 
   return (
@@ -81,10 +79,10 @@ export default function Navbar() {
         >
           {/* Logo */}
           <a
-            href="#"
+            href="#home"
             onClick={(e) => {
               e.preventDefault();
-              window.scrollTo({ top: 0, behavior: 'smooth' });
+              goHome();
             }}
             style={{
               display: 'flex',
@@ -180,7 +178,7 @@ export default function Navbar() {
             </button>
 
             <a
-              href="tel:+918889825105"
+              href={PHONE_TEL}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -248,10 +246,10 @@ export default function Navbar() {
       >
         {/* Mobile Logo */}
         <a
-          href="#"
+          href="#home"
           onClick={(e) => {
             e.preventDefault();
-            scrollTo('#');
+            goHome();
           }}
           style={{
             position: 'absolute',
@@ -327,8 +325,8 @@ export default function Navbar() {
             {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
           </button>
 
-              <a
-                href="tel:+918889825105"
+<a
+                href={PHONE_TEL}
                 style={{
               padding: '14px 32px',
               fontSize: '14px',

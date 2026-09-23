@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Phone, MessageCircle, ArrowUp } from 'lucide-react';
-
-const PHONE = '+918889825105';
-const WHATSAPP = 'https://wa.me/918889825105';
+import { PHONE_TEL, WHATSAPP_URL } from '../lib/router';
 
 export default function FloatingActions() {
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -53,7 +51,7 @@ export default function FloatingActions() {
       </button>
 
       <motion.a
-        href={`tel:${PHONE}`}
+        href={PHONE_TEL}
         aria-label="Call us"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
@@ -74,7 +72,7 @@ export default function FloatingActions() {
       </motion.a>
 
       <motion.a
-        href={WHATSAPP}
+        href={WHATSAPP_URL}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="WhatsApp"
