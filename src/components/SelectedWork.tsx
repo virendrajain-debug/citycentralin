@@ -14,55 +14,44 @@ interface Project {
   description: string;
   number: string;
   align: 'left' | 'right';
-  colors: string[];
-  shapes: 'geometric' | 'overlapping' | 'organic' | 'grid';
+  colors?: string[];
+  shapes?: 'geometric' | 'overlapping' | 'organic' | 'grid';
+  logo?: string;
 }
 
 const PROJECTS: Project[] = [
   {
-    title: 'Urban Bites',
-    category: 'Brand Identity & Social Media',
-    description: 'Complete rebrand and social strategy that transformed engagement',
+    title: 'Maniramji Jewellers',
+    category: 'Branding & Social Media',
+    description: 'Complete brand identity and social presence for a premium jewellery house',
     number: '01',
     align: 'left',
-    colors: ['var(--electric-blue)', 'var(--peach)', 'var(--red)'],
-    shapes: 'geometric',
+    logo: '/partner-maniramji.webp',
   },
   {
-    title: 'Studio Lumen',
-    category: 'Branding & Video Production',
-    description: 'Premium visual identity with cinematic reel production',
+    title: 'Career Sakha',
+    category: 'Brand Identity & Content',
+    description: 'Visual identity and content strategy built to connect with students and job seekers',
     number: '02',
     align: 'right',
-    colors: ['var(--peach)', 'var(--electric-blue)', 'var(--navy)'],
-    shapes: 'overlapping',
+    logo: '/partner-careersakha.jpg',
   },
   {
-    title: 'GreenLeaf Wellness',
-    category: 'Social Media & Growth Strategy',
-    description: 'Data-driven growth strategy with consistent content delivery',
+    title: 'Cashify',
+    category: 'Local Marketing & Promotion',
+    description: 'Store branding and targeted local campaigns that drive footfall and enquiries — Usha Nagar Store',
     number: '03',
     align: 'left',
-    colors: ['var(--electric-blue)', 'var(--navy)', 'var(--peach)'],
-    shapes: 'organic',
-  },
-  {
-    title: 'Metro Interiors',
-    category: 'Website & Brand Promotion',
-    description: 'Modern website with targeted local advertising campaigns',
-    number: '04',
-    align: 'right',
-    colors: ['var(--red)', 'var(--electric-blue)', 'var(--peach)'],
-    shapes: 'grid',
+    logo: '/partner-cashify.webp',
   },
 ];
 
 function AbstractVisual({
-  colors,
-  shapes,
+  colors = [],
+  shapes = 'geometric',
 }: {
-  colors: string[];
-  shapes: string;
+  colors?: string[];
+  shapes?: string;
 }) {
   const visualSize = 480;
 
@@ -252,6 +241,40 @@ function AbstractVisual({
   );
 }
 
+function ProjectLogo({ logo, title }: { logo: string; title: string }) {
+  return (
+    <div
+      style={{
+        width: '100%',
+        maxWidth: '480px',
+        aspectRatio: '1',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 'clamp(32px, 5vw, 64px)',
+        borderRadius: '24px',
+        background: '#FFFFFF',
+        border: '1px solid var(--border-color)',
+        boxShadow: '0 4px 30px rgba(0, 0, 0, 0.05)',
+      }}
+    >
+      <img
+        src={logo}
+        alt={`${title} logo`}
+        loading="lazy"
+        decoding="async"
+        style={{
+          maxWidth: '100%',
+          maxHeight: '100%',
+          width: 'auto',
+          height: 'auto',
+          objectFit: 'contain',
+        }}
+      />
+    </div>
+  );
+}
+
 function ProjectCard({
   project,
 }: {
@@ -433,10 +456,14 @@ function ProjectCard({
         whileHover={{ scale: 1.03 }}
         transition={{ duration: 0.4, ease: ease }}
       >
-        <AbstractVisual
-          colors={project.colors}
-          shapes={project.shapes}
-        />
+        {project.logo ? (
+          <ProjectLogo logo={project.logo} title={project.title} />
+        ) : (
+          <AbstractVisual
+            colors={project.colors}
+            shapes={project.shapes}
+          />
+        )}
       </motion.div>
 
       <style>{`

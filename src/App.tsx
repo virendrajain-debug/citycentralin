@@ -14,6 +14,7 @@ import Marquee from './components/Marquee';
 import SelectedWork from './components/SelectedWork';
 import Process from './components/Process';
 import Pricing from './components/Pricing';
+import Partners from './components/Partners';
 import Testimonials from './components/Testimonials';
 import FAQ from './components/FAQ';
 import FinalCTA from './components/FinalCTA';
@@ -88,6 +89,7 @@ function App() {
           <SelectedWork />
           <Process />
           <Pricing />
+          <Partners />
           <Testimonials />
           <FAQ />
           <FinalCTA />
